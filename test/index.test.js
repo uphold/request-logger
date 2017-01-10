@@ -63,6 +63,10 @@ describe('request-logger', () => {
     });
   });
 
+  it('should throw if `log` is not a function', () => {
+    expect(() => requestLogger(request, 'foo')).toThrowError('Expected a function');
+  });
+
   it('should generate a different id', done => {
     const log = jasmine.createSpy();
     const client = requestLogger(request, log);
@@ -405,7 +409,7 @@ describe('request-logger', () => {
         });
       });
 
-      if (['get'].includes(verb)) {
+      if (verb === 'get') {
         it('should log a `redirect` event', done => {
           const log = jasmine.createSpy();
           const client = requestLogger(request, log);
