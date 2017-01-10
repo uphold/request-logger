@@ -1,5 +1,12 @@
 # Changelog
 
+## [v1.1.0](https://github.com/uphold/request-logger/tree/v1.1.0) (2017-01-10)
+[Full Changelog](https://github.com/uphold/request-logger/compare/v1.0.0...v1.1.0)
+
+**Merged pull requests:**
+
+- Add support to node 4 [\#2](https://github.com/uphold/request-logger/pull/2) ([pedrobranco](https://github.com/pedrobranco))
+
 ## [v1.0.0](https://github.com/uphold/request-logger/tree/v1.0.0) (2017-01-06)
 **Merged pull requests:**
 
