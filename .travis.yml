@@ -3,8 +3,8 @@ language: node_js
 cache: yarn
 
 node_js:
+ - 4
  - 6
- - 7
 
 env:
  - REQUEST_VERSION=2.27.0

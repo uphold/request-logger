@@ -4,7 +4,7 @@ A wrapper for the [request](https://github.com/request/request) module that logs
 
 ## Status
 
-[![npm version][npm-image]][npm-url][![build status][travis-image]][travis-url]
+[![npm version][npm-image]][npm-url] [![build status][travis-image]][travis-url]
 
 ## Installation
 
@@ -30,25 +30,25 @@ const request = logger(require('request'));
 
 request.get('https://www.github.com');
 
-// { headers: _,
+// { headers: …,
 //   id: '6bfc21a0-0dad-48b2-8378-762e5f85f014',
 //   method: 'GET',
 //   type: 'request',
 //   uri: 'https://www.github.com/' }
 // { id: '6bfc21a0-0dad-48b2-8378-762e5f85f014',
 //   response: {
-//     headers: _,
+//     headers: …,
 //     statusCode: 301 },
 //   type: 'redirect',
 //   uri: 'https://github.com/' }
-// { headers: _,
+// { headers: …,
 //   id: '6bfc21a0-0dad-48b2-8378-762e5f85f014',
 //   method: 'GET',
 //   type: 'request',
 //   uri: 'https://github.com/' }
 // { id: '6bfc21a0-0dad-48b2-8378-762e5f85f014',
 //   response:
-//    { headers: _,
+//    { headers: …,
 //      statusCode: 200 },
 //   type: 'response',
 //   uri: 'https://github.com/' }
@@ -74,7 +74,7 @@ Each `data` object contains a `type` property indicating the type of event:
 
 - **request** - the request succeeded. `data.body` may be defined for POST requests.
 
-- **response** - the request returned a response. Note that `request` only buffers the response body if a callback was given, so only in that case will `data.body` be defined.
+- **response** - the request returned a response. Note that `request` only buffers the response body if a callback was given, so only in that case will `data.response.body` be defined.
 
 - **redirect** - the request received a redirect status code (_HTTP 3xx_). `data.uri` will point to the URI of the next request.
 
@@ -84,7 +84,9 @@ In every event, a `data.id` parameter is defined to allow matching it to the req
 
 ## Compatibility
 
-Requires at least node.js `6.0.0` due to the usage of [ES2015 Proxies](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy). The minimum required `request` version is `2.27.0`, although `2.54.0` is a particularly troubled version which is best avoided.
+The recommended node.js version is `>= 6` as it ships with native [ES2015 Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) support. This module supports node.js `4` by means of a polyfill that is loaded under the hood. As usual, keep in mind that polyfills are not as performant as their native counterpart.
+
+The minimum required `request` version is `2.27.0`, although `2.54.0` is a particularly troubled version which is best avoided.
 
 ## Release
 

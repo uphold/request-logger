@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 
+const Proxy = require('./proxy');
 const clone = require('lodash.clonedeep');
 const uuid = require('uuid/v4');
 
@@ -11,11 +12,19 @@ const uuid = require('uuid/v4');
  * Exports
  */
 
-module.exports = function logger(request, log = data => console.error(data)) {
+module.exports = function logger(request, log) {
+  if (log === undefined) {
+    log = data => console.error(data);
+  }
+
+  if (typeof log !== 'function') {
+    throw new Error('Expected a function');
+  }
+
   function apply(target, caller, args) {
     const id = uuid();
 
-    return target(...args)
+    return target.apply(undefined, args)
       .on('complete', function(response) {
         if (!this.callback) {
           return;
@@ -84,7 +93,7 @@ module.exports = function logger(request, log = data => console.error(data)) {
   return new Proxy(request, {
     apply,
     get(target, name) {
-      if (['del', 'delete', 'get', 'head', 'patch', 'post', 'put'].includes(name)) {
+      if (['del', 'delete', 'get', 'head', 'patch', 'post', 'put'].indexOf(name) !== -1) {
         return new Proxy(target[name], { apply });
       }
 

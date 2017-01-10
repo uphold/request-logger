@@ -18,14 +18,11 @@
     "email": "branco@uphold.com",
     "url": "https://github.com/pedrobranco"
   },
-  "files": [
-    "index.js"
-  ],
-  "main": "index.js",
+  "main": "src",
   "repository": "https://github.com/uphold/request-logger.git",
   "scripts": {
     "changelog": "github_changelog_generator --no-issues --header-label='# Changelog' --future-release=v$npm_config_future_release && sed -i '' -e :a -e '$d;N;2,4ba' -e 'P;D' CHANGELOG.md",
-    "lint": "eslint index.js test",
+    "lint": "eslint src test",
     "test": "jest --coverage --verbose",
     "version": "npm run changelog --future-release=$npm_package_version && git add -A CHANGELOG.md"
   },
@@ -44,6 +41,11 @@
     "request": ">=2.27.0"
   },
   "engines": {
-    "node": ">=6"
+    "node": ">=4"
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "/src/proxy.js"
+    ]
   }
 }
