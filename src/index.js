@@ -23,6 +23,7 @@ module.exports = function logger(request, log) {
 
   function apply(target, caller, args) {
     const id = uuid();
+    const startTime = Date.now();
 
     return target.apply(undefined, args)
       .on('complete', function(response) {
@@ -31,6 +32,7 @@ module.exports = function logger(request, log) {
         }
 
         log({
+          duration: Date.now() - startTime,
           id,
           response: {
             body: response.body,
@@ -42,6 +44,7 @@ module.exports = function logger(request, log) {
         }, this);
       }).on('error', function(error) {
         log({
+          duration: Date.now() - startTime,
           error,
           headers: clone(this.headers),
           id,
@@ -51,6 +54,7 @@ module.exports = function logger(request, log) {
         }, this);
       }).on('redirect', function() {
         log({
+          duration: Date.now() - startTime,
           id,
           response: {
             headers: clone(this.response.headers),
@@ -79,6 +83,7 @@ module.exports = function logger(request, log) {
         }
 
         log({
+          duration: Date.now() - startTime,
           id,
           response: {
             headers: clone(response.headers),
