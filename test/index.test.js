@@ -96,7 +96,8 @@ describe('request-logger', () => {
     nock(url).get('/').reply(200, 'foo');
 
     client(url).on('complete', () => {
-      expect(log.calls.mostRecent().args[0]).toMatchObject({
+      expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
+        duration: expect.any(Number),
         id: log.calls.mostRecent().args[0].id,
         response: {
           headers: {},
@@ -104,7 +105,7 @@ describe('request-logger', () => {
         },
         type: 'response',
         uri: 'http://foo.bar/'
-      });
+      }));
 
       done();
     });
@@ -117,7 +118,8 @@ describe('request-logger', () => {
     nock(url).get('/').reply(200, 'foo');
 
     client(url, () => {}).on('complete', () => {
-      expect(log.calls.mostRecent().args[0]).toMatchObject({
+      expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
+        duration: expect.any(Number),
         response: {
           body: 'foo',
           headers: {},
@@ -125,7 +127,54 @@ describe('request-logger', () => {
         },
         type: 'response',
         uri: 'http://foo.bar/'
-      });
+      }));
+
+      done();
+    });
+  });
+
+  it('should log the request `duration`', done => {
+    const log = jasmine.createSpy();
+    const client = requestLogger(request, log);
+
+    spyOn(Date, 'now').and.returnValue(0);
+
+    nock(url).get('/').reply(200, 'foo');
+
+    client(url, () => {}).on('complete', () => {
+      expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
+        duration: 0,
+        response: {
+          body: 'foo',
+          headers: {},
+          statusCode: 200
+        },
+        type: 'response',
+        uri: 'http://foo.bar/'
+      }));
+
+      done();
+    });
+  });
+
+  it('should log the elapsed time as `duration`', done => {
+    const log = jasmine.createSpy();
+    const client = requestLogger(request, log);
+
+    nock(url).get('/').delay(500).reply(200, 'foo');
+
+    client(url, () => {}).on('complete', () => {
+      expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
+        duration: expect.any(Number),
+        response: {
+          body: 'foo',
+          headers: {},
+          statusCode: 200
+        },
+        type: 'response',
+        uri: 'http://foo.bar/'
+      }));
+      expect(log.calls.mostRecent().args[0].duration).not.toBeLessThan(500);
 
       done();
     });
@@ -138,7 +187,8 @@ describe('request-logger', () => {
     nock(url).get('/').replyWithError('foo');
 
     client(url).on('error', () => {
-      expect(log.calls.mostRecent().args[0]).toMatchObject({
+      expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
+        duration: expect.any(Number),
         error: log.calls.mostRecent().args[0].error,
         headers: {
           host: 'foo.bar'
@@ -147,7 +197,7 @@ describe('request-logger', () => {
         method: 'GET',
         type: 'error',
         uri: 'http://foo.bar/'
-      });
+      }));
 
       done();
     });
@@ -161,7 +211,8 @@ describe('request-logger', () => {
     nock(url).get('/').reply(302, undefined, { Location: redirectUrl });
 
     client(url).on('redirect', () => {
-      expect(log.calls.mostRecent().args[0]).toMatchObject({
+      expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
+        duration: expect.any(Number),
         response: {
           headers: {
             location: redirectUrl
@@ -170,7 +221,7 @@ describe('request-logger', () => {
         },
         type: 'redirect',
         uri: redirectUrl
-      });
+      }));
 
       done();
     });
@@ -227,14 +278,15 @@ describe('request-logger', () => {
     nock(url).get('/').reply(200);
 
     client(url).on('response', () => {
-      expect(log.calls.mostRecent().args[0]).toMatchObject({
+      expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
+        duration: expect.any(Number),
         response: {
           headers: {},
           statusCode: 200
         },
         type: 'response',
         uri: 'http://foo.bar/'
-      });
+      }));
 
       done();
     });
@@ -247,14 +299,15 @@ describe('request-logger', () => {
     nock(url).get('/').reply(200, 'foo');
 
     client(url).on('response', () => {
-      expect(log.calls.mostRecent().args[0]).toMatchObject({
+      expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
+        duration: expect.any(Number),
         response: {
           headers: {},
           statusCode: 200
         },
         type: 'response',
         uri: 'http://foo.bar/'
-      });
+      }));
 
       done();
     });
@@ -267,14 +320,14 @@ describe('request-logger', () => {
     nock(url).get('/').reply(200);
 
     client(url, () => {}).on('response', () => {
-      expect(log.calls.mostRecent().args[0]).toMatchObject({
+      expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
         headers: {
           host: 'foo.bar'
         },
         method: 'GET',
         type: 'request',
         uri: 'http://foo.bar/'
-      });
+      }));
 
       done();
     });
@@ -351,15 +404,15 @@ describe('request-logger', () => {
         nock(url)[method]('/').reply(200, 'foo');
 
         client[verb](url).on('complete', () => {
-          expect(log.calls.mostRecent().args[0]).toMatchObject({
+          expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
+            id: expect.any(String),
             response: {
               headers: {},
               statusCode: 200
             },
             type: 'response',
             uri: 'http://foo.bar/'
-          });
-          expect(log.calls.mostRecent().args[0].id).toBeDefined();
+          }));
 
           done();
         });
@@ -372,7 +425,9 @@ describe('request-logger', () => {
         nock(url)[method]('/').reply(200, 'foo');
 
         client[verb](url, () => {}).on('complete', () => {
-          expect(log.calls.mostRecent().args[0]).toMatchObject({
+          expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
+            duration: expect.any(Number),
+            id: expect.any(String),
             response: {
               body: 'foo',
               headers: {},
@@ -380,8 +435,7 @@ describe('request-logger', () => {
             },
             type: 'response',
             uri: 'http://foo.bar/'
-          });
-          expect(log.calls.mostRecent().args[0].id).toBeDefined();
+          }));
 
           done();
         });
@@ -394,16 +448,14 @@ describe('request-logger', () => {
         nock(url)[method]('/').replyWithError('foo');
 
         client[verb](url).on('error', () => {
-          expect(log.calls.mostRecent().args[0]).toMatchObject({
+          expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
+            duration: expect.any(Number),
             error: new Error('foo'),
-            headers: {
-              host: 'foo.bar'
-            },
+            id: expect.any(String),
+            method: expect.any(String),
             type: 'error',
             uri: 'http://foo.bar/'
-          });
-          expect(log.calls.mostRecent().args[0].method).toBeDefined();
-          expect(log.calls.mostRecent().args[0].id).toBeDefined();
+          }));
 
           done();
         });
@@ -418,16 +470,18 @@ describe('request-logger', () => {
           nock(url)[method]('/').reply(302, undefined, { Location: redirectUrl });
 
           client[verb](url).on('redirect', () => {
-            expect(log.calls.mostRecent().args[0]).toMatchObject({
+            expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
+              duration: expect.any(Number),
+              id: expect.any(String),
               response: {
                 headers: {
                   location: redirectUrl
-                }
+                },
+                statusCode: 302
               },
               type: 'redirect',
               uri: redirectUrl
-            });
-            expect(log.calls.mostRecent().args[0].id).toBeDefined();
+            }));
 
             done();
           });
@@ -448,7 +502,6 @@ describe('request-logger', () => {
             type: 'request',
             uri: 'http://foo.bar/'
           });
-
           expect(log.calls.mostRecent().args[0].id).toBeDefined();
           expect(log.calls.mostRecent().args[0].method).toBeDefined();
         }).on('response', () => {
@@ -474,7 +527,6 @@ describe('request-logger', () => {
               type: 'request',
               uri: 'http://foo.bar/'
             });
-
             expect(log.calls.mostRecent().args[0].id).toBeDefined();
             expect(log.calls.mostRecent().args[0].method).toBeDefined();
           }).on('response', () => {
@@ -491,14 +543,16 @@ describe('request-logger', () => {
         nock(url)[method]('/').reply(200);
 
         client[verb](url).on('response', () => {
-          expect(log.calls.mostRecent().args[0]).toMatchObject({
+          expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
+            duration: expect.any(Number),
+            id: expect.any(String),
             response: {
-              headers: {}
+              headers: {},
+              statusCode: 200
             },
             type: 'response',
             uri: 'http://foo.bar/'
-          });
-          expect(log.calls.mostRecent().args[0].id).toBeDefined();
+          }));
 
           done();
         });
@@ -511,15 +565,12 @@ describe('request-logger', () => {
         nock(url)[method]('/').reply(200);
 
         client[verb](url, () => {}).on('response', () => {
-          expect(log.calls.mostRecent().args[0]).toMatchObject({
-            headers: {
-              host: 'foo.bar'
-            },
+          expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
+            id: expect.any(String),
+            method: expect.any(String),
             type: 'request',
             uri: 'http://foo.bar/'
-          });
-          expect(log.calls.mostRecent().args[0].id).toBeDefined();
-          expect(log.calls.mostRecent().args[0].method).toBeDefined();
+          }));
 
           done();
         });
