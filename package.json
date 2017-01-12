@@ -1,6 +1,6 @@
 {
   "name": "@uphold/request-logger",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A wrapper for the request module that logs all request events",
   "keywords": [
     "http",

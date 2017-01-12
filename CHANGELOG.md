@@ -1,5 +1,12 @@
 # Changelog
 
+## [v1.2.0](https://github.com/uphold/request-logger/tree/v1.2.0) (2017-01-12)
+[Full Changelog](https://github.com/uphold/request-logger/compare/v1.1.0...v1.2.0)
+
+**Merged pull requests:**
+
+- Log the request duration [\#3](https://github.com/uphold/request-logger/pull/3) ([pedrobranco](https://github.com/pedrobranco))
+
 ## [v1.1.0](https://github.com/uphold/request-logger/tree/v1.1.0) (2017-01-10)
 [Full Changelog](https://github.com/uphold/request-logger/compare/v1.0.0...v1.1.0)
 
