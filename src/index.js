@@ -31,13 +31,11 @@ module.exports = function logger(request, log) {
         }
 
         log({
+          body: response.body,
           duration: Date.now() - startTime,
+          headers: response.headers,
           id,
-          response: {
-            body: response.body,
-            headers: response.headers,
-            statusCode: response.statusCode
-          },
+          statusCode: response.statusCode,
           type: 'response',
           uri: this.uri.href
         }, this);
@@ -54,11 +52,9 @@ module.exports = function logger(request, log) {
       }).on('redirect', function() {
         log({
           duration: Date.now() - startTime,
+          headers: this.response.headers,
           id,
-          response: {
-            headers: this.response.headers,
-            statusCode: this.response.statusCode
-          },
+          statusCode: this.response.statusCode,
           type: 'redirect',
           uri: this.uri.href
         }, this);
@@ -83,11 +79,9 @@ module.exports = function logger(request, log) {
 
         log({
           duration: Date.now() - startTime,
+          headers: response.headers,
           id,
-          response: {
-            headers: response.headers,
-            statusCode: response.statusCode
-          },
+          statusCode: response.statusCode,
           type: 'response',
           uri: this.uri.href
         }, this);

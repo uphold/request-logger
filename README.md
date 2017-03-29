@@ -35,10 +35,9 @@ request.get('https://www.github.com');
 //   method: 'GET',
 //   type: 'request',
 //   uri: 'https://www.github.com/' }
-// { id: '6bfc21a0-0dad-48b2-8378-762e5f85f014',
-//   response: {
-//     headers: …,
-//     statusCode: 301 },
+// { headers: …,
+//   id: '6bfc21a0-0dad-48b2-8378-762e5f85f014',
+//   statusCode: 301,
 //   type: 'redirect',
 //   uri: 'https://github.com/' }
 // { headers: …,
@@ -46,10 +45,9 @@ request.get('https://www.github.com');
 //   method: 'GET',
 //   type: 'request',
 //   uri: 'https://github.com/' }
-// { id: '6bfc21a0-0dad-48b2-8378-762e5f85f014',
-//   response:
-//    { headers: …,
-//      statusCode: 200 },
+// { headers: …,
+//   id: '6bfc21a0-0dad-48b2-8378-762e5f85f014',
+//   statusCode: 200,
 //   type: 'response',
 //   uri: 'https://github.com/' }
 ```
@@ -58,7 +56,7 @@ You can optionally define a custom logging function which receives the request o
 
 ```javascript
 const logger = require('@uphold/request-logger');
-const request = logger(require('request'), data => console.log(`${data.id} ${data.type}: ${data.uri}${data.response && data.response.statusCode ? ` (${data.response.statusCode})` : ''} ${(data.response && data.response.body ? `${data.response.body}` : '').length} bytes`));
+const request = logger(require('request'), data => console.log(`${data.id} ${data.type}: ${data.uri}${data.statusCode ? ` (${data.statusCode})` : ''} ${(data.body ? `${data.body}` : '').length} bytes`));
 
 request.get('https://www.github.com', () => {});
 
@@ -74,7 +72,7 @@ Each `data` object contains a `type` property indicating the type of event:
 
 - **request** - the request succeeded. `data.body` may be defined for POST requests.
 
-- **response** - the request returned a response. Note that `request` only buffers the response body if a callback was given, so only in that case will `data.response.body` be defined.
+- **response** - the request returned a response. Note that `request` only buffers the response body if a callback was given, so only in that case will `data.body` be defined.
 
 - **redirect** - the request received a redirect status code (_HTTP 3xx_). `data.uri` will point to the URI of the next request.
 

@@ -96,11 +96,9 @@ describe('request-logger', () => {
     client(url).on('complete', () => {
       expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
         duration: expect.any(Number),
+        headers: {},
         id: log.calls.mostRecent().args[0].id,
-        response: {
-          headers: {},
-          statusCode: 200
-        },
+        statusCode: 200,
         type: 'response',
         uri: 'http://foo.bar/'
       }));
@@ -117,12 +115,10 @@ describe('request-logger', () => {
 
     client(url, () => {}).on('complete', () => {
       expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
+        body: 'foo',
         duration: expect.any(Number),
-        response: {
-          body: 'foo',
-          headers: {},
-          statusCode: 200
-        },
+        headers: {},
+        statusCode: 200,
         type: 'response',
         uri: 'http://foo.bar/'
       }));
@@ -141,12 +137,10 @@ describe('request-logger', () => {
 
     client(url, () => {}).on('complete', () => {
       expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
+        body: 'foo',
         duration: 0,
-        response: {
-          body: 'foo',
-          headers: {},
-          statusCode: 200
-        },
+        headers: {},
+        statusCode: 200,
         type: 'response',
         uri: 'http://foo.bar/'
       }));
@@ -163,12 +157,10 @@ describe('request-logger', () => {
 
     client(url, () => {}).on('complete', () => {
       expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
+        body: 'foo',
         duration: expect.any(Number),
-        response: {
-          body: 'foo',
-          headers: {},
-          statusCode: 200
-        },
+        headers: {},
+        statusCode: 200,
         type: 'response',
         uri: 'http://foo.bar/'
       }));
@@ -211,12 +203,10 @@ describe('request-logger', () => {
     client(url).on('redirect', () => {
       expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
         duration: expect.any(Number),
-        response: {
-          headers: {
-            location: redirectUrl
-          },
-          statusCode: 302
+        headers: {
+          location: redirectUrl
         },
+        statusCode: 302,
         type: 'redirect',
         uri: redirectUrl
       }));
@@ -275,10 +265,8 @@ describe('request-logger', () => {
     client(url).on('response', () => {
       expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
         duration: expect.any(Number),
-        response: {
-          headers: {},
-          statusCode: 200
-        },
+        headers: {},
+        statusCode: 200,
         type: 'response',
         uri: 'http://foo.bar/'
       }));
@@ -296,10 +284,8 @@ describe('request-logger', () => {
     client(url).on('response', () => {
       expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
         duration: expect.any(Number),
-        response: {
-          headers: {},
-          statusCode: 200
-        },
+        headers: {},
+        statusCode: 200,
         type: 'response',
         uri: 'http://foo.bar/'
       }));
@@ -398,11 +384,9 @@ describe('request-logger', () => {
 
         client[verb](url).on('complete', () => {
           expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
+            headers: {},
             id: expect.any(String),
-            response: {
-              headers: {},
-              statusCode: 200
-            },
+            statusCode: 200,
             type: 'response',
             uri: 'http://foo.bar/'
           }));
@@ -419,13 +403,11 @@ describe('request-logger', () => {
 
         client[verb](url, () => {}).on('complete', () => {
           expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
+            body: 'foo',
             duration: expect.any(Number),
+            headers: {},
             id: expect.any(String),
-            response: {
-              body: 'foo',
-              headers: {},
-              statusCode: 200
-            },
+            statusCode: 200,
             type: 'response',
             uri: 'http://foo.bar/'
           }));
@@ -465,13 +447,11 @@ describe('request-logger', () => {
           client[verb](url).on('redirect', () => {
             expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
               duration: expect.any(Number),
-              id: expect.any(String),
-              response: {
-                headers: {
-                  location: redirectUrl
-                },
-                statusCode: 302
+              headers: {
+                location: redirectUrl
               },
+              id: expect.any(String),
+              statusCode: 302,
               type: 'redirect',
               uri: redirectUrl
             }));
@@ -535,11 +515,9 @@ describe('request-logger', () => {
         client[verb](url).on('response', () => {
           expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
             duration: expect.any(Number),
+            headers: {},
             id: expect.any(String),
-            response: {
-              headers: {},
-              statusCode: 200
-            },
+            statusCode: 200,
             type: 'response',
             uri: 'http://foo.bar/'
           }));
