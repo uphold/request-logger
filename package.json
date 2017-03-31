@@ -27,7 +27,6 @@
     "version": "npm run changelog --future-release=$npm_package_version && git add -A CHANGELOG.md"
   },
   "dependencies": {
-    "lodash.clonedeep": "^4.5.0",
     "uuid": "^3.0.1"
   },
   "devDependencies": {
