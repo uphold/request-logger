@@ -51,9 +51,7 @@ describe('request-logger', () => {
     client(url).on('response', () => {
       expect(console.error).toHaveBeenCalled();
       expect(console.error.calls.first().args[0]).toMatchObject({
-        headers: {
-          host: 'foo.bar'
-        },
+        headers: {},
         method: 'GET',
         type: 'request',
         uri: 'http://foo.bar/'
@@ -235,9 +233,7 @@ describe('request-logger', () => {
 
     client(url).on('request', () => {
       expect(log.calls.mostRecent().args[0]).toMatchObject({
-        headers: {
-          host: 'foo.bar'
-        },
+        headers: {},
         id: log.calls.mostRecent().args[0].id,
         method: 'GET',
         type: 'request',
@@ -258,8 +254,7 @@ describe('request-logger', () => {
       expect(log.calls.mostRecent().args[0]).toMatchObject({
         body: 'foo',
         headers: {
-          'content-length': 3,
-          host: 'foo.bar'
+          'content-length': 3
         },
         id: log.calls.mostRecent().args[0].id,
         method: 'GET',
@@ -321,9 +316,7 @@ describe('request-logger', () => {
 
     client(url, () => {}).on('response', () => {
       expect(log.calls.mostRecent().args[0]).toEqual(expect.objectContaining({
-        headers: {
-          host: 'foo.bar'
-        },
+        headers: {},
         method: 'GET',
         type: 'request',
         uri: 'http://foo.bar/'
@@ -496,9 +489,7 @@ describe('request-logger', () => {
 
         client[verb](url).on('request', () => {
           expect(log.calls.mostRecent().args[0]).toMatchObject({
-            headers: {
-              host: 'foo.bar'
-            },
+            headers: {},
             type: 'request',
             uri: 'http://foo.bar/'
           });
@@ -521,8 +512,7 @@ describe('request-logger', () => {
             expect(log.calls.mostRecent().args[0]).toMatchObject({
               body: 'foo',
               headers: {
-                'content-length': 3,
-                host: 'foo.bar'
+                'content-length': 3
               },
               type: 'request',
               uri: 'http://foo.bar/'

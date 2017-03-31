@@ -5,7 +5,6 @@
  */
 
 const Proxy = require('./proxy');
-const clone = require('lodash.clonedeep');
 const uuid = require('uuid/v4');
 
 /**
@@ -36,7 +35,7 @@ module.exports = function logger(request, log) {
           id,
           response: {
             body: response.body,
-            headers: clone(response.headers),
+            headers: response.headers,
             statusCode: response.statusCode
           },
           type: 'response',
@@ -46,7 +45,7 @@ module.exports = function logger(request, log) {
         log({
           duration: Date.now() - startTime,
           error,
-          headers: clone(this.headers),
+          headers: this.headers,
           id,
           method: this.method.toUpperCase(),
           type: 'error',
@@ -57,7 +56,7 @@ module.exports = function logger(request, log) {
           duration: Date.now() - startTime,
           id,
           response: {
-            headers: clone(this.response.headers),
+            headers: this.response.headers,
             statusCode: this.response.statusCode
           },
           type: 'redirect',
@@ -65,7 +64,7 @@ module.exports = function logger(request, log) {
         }, this);
       }).on('request', function() {
         const data = {
-          headers: clone(this.headers),
+          headers: this.headers,
           id,
           method: this.method,
           type: 'request',
@@ -86,7 +85,7 @@ module.exports = function logger(request, log) {
           duration: Date.now() - startTime,
           id,
           response: {
-            headers: clone(response.headers),
+            headers: response.headers,
             statusCode: response.statusCode
           },
           type: 'response',
