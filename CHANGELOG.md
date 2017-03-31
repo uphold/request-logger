@@ -1,5 +1,13 @@
 # Changelog
 
+## [v2.0.0](https://github.com/uphold/request-logger/tree/v2.0.0) (2017-03-31)
+[Full Changelog](https://github.com/uphold/request-logger/compare/v1.2.0...v2.0.0)
+
+**Merged pull requests:**
+
+- Remove `lodash.clonedeep` [\#6](https://github.com/uphold/request-logger/pull/6) ([nunofgs](https://github.com/nunofgs))
+- Fix nested response object [\#5](https://github.com/uphold/request-logger/pull/5) ([nunofgs](https://github.com/nunofgs))
+
 ## [v1.2.0](https://github.com/uphold/request-logger/tree/v1.2.0) (2017-01-12)
 [Full Changelog](https://github.com/uphold/request-logger/compare/v1.1.0...v1.2.0)
 
