@@ -27,17 +27,17 @@
     "version": "npm run changelog --future-release=$npm_package_version && git add -A CHANGELOG.md"
   },
   "dependencies": {
-    "uuid": "^3.0.1"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "eslint": "^3.12.2",
-    "eslint-config-seegno": "^8.0.1",
-    "jest": "^18.1.0",
-    "nock": "^9.0.2",
-    "request": "^2.79.0"
+    "@cypress/request": "^3.0.1",
+    "eslint": "^8.57.0",
+    "eslint-config-uphold": "^6.0.0",
+    "jest": "^29.7.0",
+    "nock": "^13.5.4"
   },
   "peerDependencies": {
-    "request": ">=2.27.0"
+    "@cypress/request": ">=3.0.1"
   },
   "engines": {
     "node": ">=4"
@@ -45,6 +45,7 @@
   "jest": {
     "coveragePathIgnorePatterns": [
       "/src/proxy.js"
-    ]
+    ],
+    "restoreMocks": true
   }
 }
