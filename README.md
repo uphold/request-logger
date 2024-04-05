@@ -1,6 +1,6 @@
 # request-logger
 
-A wrapper for the [request](https://github.com/request/request) module that logs all request events.
+A wrapper for the [request](https://github.com/cypress-io/request) module that logs all request events.
 
 ## Status
 
@@ -26,7 +26,7 @@ Wrap the `request` module using `@uphold/request-logger`. By default, all events
 
 ```javascript
 const logger = require('@uphold/request-logger');
-const request = logger(require('request'));
+const request = logger(require('@cypress/request'));
 
 request.get('https://www.github.com');
 
@@ -56,7 +56,7 @@ You can optionally define a custom logging function which receives the request o
 
 ```javascript
 const logger = require('@uphold/request-logger');
-const request = logger(require('request'), data => console.log(`${data.id} ${data.type}: ${data.uri}${data.statusCode ? ` (${data.statusCode})` : ''} ${(data.body ? `${data.body}` : '').length} bytes`));
+const request = logger(require('@cypress/request'), data => console.log(`${data.id} ${data.type}: ${data.uri}${data.statusCode ? ` (${data.statusCode})` : ''} ${(data.body ? `${data.body}` : '').length} bytes`));
 
 request.get('https://www.github.com', () => {});
 
@@ -86,11 +86,10 @@ The recommended node.js version is `>= 6` as it ships with native [ES2015 Proxy]
 
 The minimum required `request` version is `2.27.0`, although `2.54.0` is a particularly troubled version which is best avoided.
 
-## Release
+## Release process
 
-```shell
-❯ npm version [<newversion> | major | minor | patch] -m "Release %s"`
-```
+The release of a version is automated via the [release](https://github.com/uphold/request-logger/.github/workflows/release.yaml) GitHub workflow.
+Run it by clicking the "Run workflow" button.
 
 ## License
 
