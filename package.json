@@ -21,20 +21,18 @@
   "main": "src",
   "repository": "https://github.com/uphold/request-logger.git",
   "scripts": {
-    "changelog": "github_changelog_generator --no-issues --header-label='# Changelog' --future-release=v$npm_config_future_release && sed -i '' -e :a -e '$d;N;2,4ba' -e 'P;D' CHANGELOG.md",
     "lint": "eslint src test",
-    "test": "jest --coverage --verbose",
-    "version": "npm run changelog --future-release=$npm_package_version && git add -A CHANGELOG.md"
+    "release": "release-it",
+    "test": "jest --coverage --verbose"
   },
-  "dependencies": {
-    "uuid": "^9.0.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@cypress/request": "^3.0.1",
     "eslint": "^8.57.0",
     "eslint-config-uphold": "^6.0.0",
     "jest": "^29.7.0",
-    "nock": "^13.5.4"
+    "nock": "^13.5.4",
+    "release-it": "^17.1.1"
   },
   "peerDependencies": {
     "@cypress/request": ">=3.0.1"

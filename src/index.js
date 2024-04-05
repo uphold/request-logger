@@ -4,8 +4,8 @@
  * Module dependencies.
  */
 
+const { randomUUID } = require('node:crypto');
 const Proxy = require('./proxy');
-const uuid = require('uuid');
 
 /**
  * Exports
@@ -21,7 +21,7 @@ module.exports = function logger(request, log) {
   }
 
   function apply(target, caller, args) {
-    const id = uuid.v4();
+    const id = randomUUID();
     const startTime = Date.now();
 
     return target
