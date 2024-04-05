@@ -5,7 +5,7 @@
  */
 
 const Proxy = require('./proxy');
-const uuid = require('uuid/v4');
+const uuid = require('uuid');
 
 /**
  * Exports
@@ -21,44 +21,57 @@ module.exports = function logger(request, log) {
   }
 
   function apply(target, caller, args) {
-    const id = uuid();
+    const id = uuid.v4();
     const startTime = Date.now();
 
-    return target.apply(undefined, args)
-      .on('complete', function(response) {
+    return target
+      .apply(undefined, args)
+      .on('complete', function (response) {
         if (!this.callback) {
           return;
         }
 
-        log({
-          body: response.body,
-          duration: Date.now() - startTime,
-          headers: response.headers,
-          id,
-          statusCode: response.statusCode,
-          type: 'response',
-          uri: this.uri.href
-        }, this);
-      }).on('error', function(error) {
-        log({
-          duration: Date.now() - startTime,
-          error,
-          headers: this.headers,
-          id,
-          method: this.method.toUpperCase(),
-          type: 'error',
-          uri: this.uri.href
-        }, this);
-      }).on('redirect', function() {
-        log({
-          duration: Date.now() - startTime,
-          headers: this.response.headers,
-          id,
-          statusCode: this.response.statusCode,
-          type: 'redirect',
-          uri: this.uri.href
-        }, this);
-      }).on('request', function() {
+        log(
+          {
+            body: response.body,
+            duration: Date.now() - startTime,
+            headers: response.headers,
+            id,
+            statusCode: response.statusCode,
+            type: 'response',
+            uri: this.uri.href
+          },
+          this
+        );
+      })
+      .on('error', function (error) {
+        log(
+          {
+            duration: Date.now() - startTime,
+            error,
+            headers: this.headers,
+            id,
+            method: this.method.toUpperCase(),
+            type: 'error',
+            uri: this.uri.href
+          },
+          this
+        );
+      })
+      .on('redirect', function () {
+        log(
+          {
+            duration: Date.now() - startTime,
+            headers: this.response.headers,
+            id,
+            statusCode: this.response.statusCode,
+            type: 'redirect',
+            uri: this.uri.href
+          },
+          this
+        );
+      })
+      .on('request', function () {
         const data = {
           headers: this.headers,
           id,
@@ -72,19 +85,23 @@ module.exports = function logger(request, log) {
         }
 
         log(data, this);
-      }).on('response', function(response) {
+      })
+      .on('response', function (response) {
         if (this.callback) {
           return;
         }
 
-        log({
-          duration: Date.now() - startTime,
-          headers: response.headers,
-          id,
-          statusCode: response.statusCode,
-          type: 'response',
-          uri: this.uri.href
-        }, this);
+        log(
+          {
+            duration: Date.now() - startTime,
+            headers: response.headers,
+            id,
+            statusCode: response.statusCode,
+            type: 'response',
+            uri: this.uri.href
+          },
+          this
+        );
       });
   }
 

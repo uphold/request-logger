@@ -1,6 +1,9 @@
-extends: seegno
+extends: uphold
 
 rules:
   no-console: 0
   no-sync: 0
   prefer-spread: 0
+
+  # Disable prettier.
+  prettier/prettier: 0

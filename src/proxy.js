@@ -4,14 +4,14 @@
  * Module dependencies.
  */
 
-const fs = require('fs');
-const vm = require('vm');
+const fs = require('node:fs');
+const vm = require('node:vm');
 
 /**
  * Proxy reference.
  */
 
-let Proxy = global.Proxy;
+let { Proxy } = global;
 
 /**
  * Workaround to avoid mutating `global.Proxy`.
