@@ -1,5 +1,8 @@
 # Changelog
 
+## [v3.0.0](https://github.com/uphold/request-logger/releases/tag/v3.0.0) (2024-04-08)
+- Update dependencies [\#11](https://github.com/uphold/request-logger/pull/11) ([Americas](https://github.com/Americas))
+
 ## [v2.0.0](https://github.com/uphold/request-logger/tree/v2.0.0) (2017-03-31)
 [Full Changelog](https://github.com/uphold/request-logger/compare/v1.2.0...v2.0.0)
 
